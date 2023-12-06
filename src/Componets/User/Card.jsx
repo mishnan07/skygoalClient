@@ -30,7 +30,7 @@ const Card = () => {
         getData()
       },[])
 
-      const userAPI = "https://skygoalserver-mishnan.onrender.com"
+      const userAPI = "https://skygoalserver-mishnan.onrender.com/"
 
   return (
     <div>
