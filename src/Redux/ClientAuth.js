@@ -6,15 +6,12 @@ export const ClientAuth = createSlice({
   initialState: {
     Token: null,
     Id: null,
-    Online: false
   },
   reducers: {
     ClientLogin(state, action) {
       state.Token = action.payload.token;
-      state.Online = true;
     },
     ClientLogout(state, action) {
-      state.Online = false;
       state.Token = '';
     },
     ClientId(state, action) {
