@@ -30,7 +30,7 @@ const Card = () => {
         getData()
       },[])
 
- const userAPI = "http://localhost:3000/";
+      const userAPI = "https://skygoalserver-mishnan.onrender.com"
 
   return (
     <div>
@@ -72,12 +72,7 @@ const Card = () => {
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-400">SI NO</span><span className=" text-blueGray-400">{data?._id}</span>
                       </div>
-                      {/* <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span><span className="text-sm text-blueGray-400">Photos</span>
-                      </div>
-                      <div className="lg:mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span className="text-sm text-blueGray-400">Comments</span>
-                      </div> */}
+                     
                     </div>
                   </div>
                 </div>

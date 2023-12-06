@@ -42,8 +42,6 @@ const Login = () => {
           dispatch(ClientLogin({ token: token }));
           dispatch(ClientId({ id: id }));
           navigate('/');
-        } else if (!res.data.state) {
-          toast.error(res.data.mess);
         }
       } catch (error) {
         toast.error('Email or password is incorrect');

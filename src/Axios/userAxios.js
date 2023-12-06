@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const CreateUserInstance = ()=>{
     const token = useSelector((state) => state.ClientAuth.Token);
-    const userAPI = "http://localhost:3000/";
+    const userAPI = "https://skygoalserver-mishnan.onrender.com"
 
 
     const userInstance = axios.create({
