@@ -77,7 +77,6 @@ setLoading(true)
       if (response.data.status === false) {
         toast.error(response.data.mes);
       } else {
-
         toast.success("Registration successful!");
         setLoading(false)
         setName("");

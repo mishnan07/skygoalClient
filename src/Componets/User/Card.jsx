@@ -30,7 +30,7 @@ const Card = () => {
         getData()
       },[])
 
-      const userAPI = "https://skygoalserver-mishnan.onrender.com/"
+      const userAPI = "https://skygoalserver-mishnan.onrender.com"
 
   return (
     <div>
@@ -56,7 +56,13 @@ const Card = () => {
               <div className="px-6">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                    {                    console.log(`${userAPI}/images/${data?.profileImage}`)
+}
                     <div className="relative">
+
+                    
+                                    
+
                       <img alt="..." src={data?.profileImage?`${userAPI}/images/` + data?.profileImage:'/user_149071.png'} className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                     </div>
                   </div>
