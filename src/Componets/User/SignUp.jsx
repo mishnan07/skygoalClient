@@ -3,12 +3,15 @@ import CreateUserInstance from "../../Axios/userAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading,setLoading]=useState(false)
+
   const navigate = useNavigate()
 
   const userInstance = CreateUserInstance();
@@ -64,7 +67,7 @@ const SignUp = () => {
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
-
+setLoading(true)
       const response = await userInstance.post("/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -74,7 +77,9 @@ const SignUp = () => {
       if (response.data.status === false) {
         toast.error(response.data.mes);
       } else {
+
         toast.success("Registration successful!");
+        setLoading(false)
         setName("");
         setEmail("");
         setPassword("");
@@ -177,12 +182,13 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="relative">
-                    <button
-                      onClick={handleSubmit}
-                      className="bg-cyan-500 text-white rounded-md px-2 py-1"
-                    >
-                      Submit
-                    </button>
+                  {loading?
+                      <Loader />
+                    :
+                    <button onClick={handleSubmit} className="bg-cyan-500 text-white rounded-md px-2 py-1">
+                    Submit
+                  </button>
+                    }
                   </div>
 
                   <p onClick={()=>navigate('/login')}  className="text-xs cursor-pointer">

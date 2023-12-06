@@ -5,12 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateUserInstance from "../../Axios/userAxios";
 import { ClientId, ClientLogin } from "../../Redux/ClientAuth";
+import Loader from "./Loader";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [loading,setLoading]=useState(false)
 
     const userInstance = CreateUserInstance()
 
@@ -32,7 +34,7 @@ const Login = () => {
         } else if (password.length < 6) {
           return toast.error('Password should be at least 6 characters');
         }
-    
+       setLoading(true)
         const res = await userInstance.post('/login', { email, password });
         const result = res.data.userResponse;
     
@@ -42,6 +44,7 @@ const Login = () => {
           dispatch(ClientLogin({ token: token }));
           dispatch(ClientId({ id: id }));
           navigate('/');
+          setLoading(false)
         }
       } catch (error) {
         toast.error('Email or password is incorrect');
@@ -102,9 +105,13 @@ const Login = () => {
                     </label>
                   </div>
                   <div className="relative">
+                    {loading?
+                      <Loader />
+                    :
                     <button onClick={handleSubmit} className="bg-cyan-500 text-white rounded-md px-2 py-1">
-                      Submit
-                    </button>
+                    Submit
+                  </button>
+                    }
                   </div>
 
                     <p onClick={()=>navigate('/register')}  className="text-xs cursor-pointer">
