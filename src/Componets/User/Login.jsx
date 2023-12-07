@@ -114,8 +114,8 @@ const Login = () => {
                     }
                   </div>
 
-                    <p onClick={()=>navigate('/register')}  className="text-sm cursor-pointer">
-                      Create new account
+                    <p onClick={()=>navigate('/register')}  className="text-sm cursor-pointer text-cyan-600">
+                      Create new account ? Register
                     </p>
                 </div>
               </div>

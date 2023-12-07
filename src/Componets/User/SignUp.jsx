@@ -244,8 +244,8 @@ const SignUp = ({edit,user,setState}) => {
                     }
                   </div>
                  {!isEdit&&
-                  <p onClick={()=>navigate('/login')}  className="text-sm cursor-pointer">
-                      Already have account ?
+                  <p onClick={()=>navigate('/login')}  className="text-sm cursor-pointer text-cyan-600">
+                      Already have account ? Login.
                     </p>}
                 </div>
               </div>
