@@ -67,7 +67,7 @@ const SignUp = () => {
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
-setLoading(true)
+      setLoading(true)
       const response = await userInstance.post("/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -83,6 +83,7 @@ setLoading(true)
         setEmail("");
         setPassword("");
         setSelectedImage(null);
+        navigate('/login')
       }
     } catch (error) {
       console.error(error);
@@ -190,8 +191,8 @@ setLoading(true)
                     }
                   </div>
 
-                  <p onClick={()=>navigate('/login')}  className="text-xs cursor-pointer">
-                      Already have account
+                  <p onClick={()=>navigate('/login')}  className="text-sm cursor-pointer">
+                      Already have account ?
                     </p>
                 </div>
               </div>

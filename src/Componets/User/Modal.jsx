@@ -1,9 +1,15 @@
 import React from 'react'
+import { FaEdit } from 'react-icons/fa';
 
 const Modal = () => {
   return (
     <div>
     {/* You can open the modal using document.getElementById('ID').showModal() method */}
+    <FaEdit
+      size={20} // Adjust the size as needed
+      color="white" // Adjust the color as needed
+      className="cursor-pointer"
+    />
 <button className="btn" onClick={()=>document.getElementById('my_modal_3').showModal()}>open modal</button>
 <dialog id="my_modal_3" className="modal">
   <div className="modal-box">
