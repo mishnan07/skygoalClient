@@ -1,11 +1,11 @@
 
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { userAPI } from "../Constants/Api";
 
 
 const CreateUserInstance = ()=>{
     const token = useSelector((state) => state.ClientAuth.Token);
-    const userAPI = "https://skygoalserver-mishnan.onrender.com"
 
 
     const userInstance = axios.create({

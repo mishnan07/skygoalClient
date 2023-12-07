@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateUserInstance from "../../Axios/userAxios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
+import { userAPI } from "../../Constants/Api";
+import { useSelector } from "react-redux";
 
-const SignUp = () => {
+const SignUp = ({edit,user,setState}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading,setLoading]=useState(false)
+  const isEdit = edit==='edit'?true:false
 
   const navigate = useNavigate()
 
   const userInstance = CreateUserInstance();
+
+  useEffect(() => {
+    if (isEdit && user) {
+      console.log(user?.profileImage, 'aasssssssssssssssssssssssssss');
+      setName(user?.name || "");
+      setEmail(user?.email || "");
+      setSelectedImage(user?.profileImage || '');
+    }
+  }, [isEdit, user]);
+  
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -51,39 +64,69 @@ const SignUp = () => {
       return toast.error("Please enter email");
     } else if (!isValidEmail(email)) {
       return toast.error("Please enter a valid email");
-    } else if (password.length === 0) {
+    } else if (password.length === 0 && !isEdit) {
       return toast.error("Please enter password");
-    } else if (password.length < 6) {
-      return toast.error("Password should be at least 6 characters");
-    } else if (!isStrongPassword(password)) {
-      return toast.error('Password not stronger. Please use combination of M*@a9# .');
-    }
+    } else if (!isStrongPassword(password) && !isEdit) {
+      const passwordRulesMessage = `
+      Password must contain:
+     -  (a-z) , (A-Z) , (0-9) , @$!%*?&
+
+      - Minimum length of 8 characters
+      `;
+      
+     return toast.error(passwordRulesMessage, {
+        style: {
+          width: "300px", 
+        },
+        duration: 50000,
+      });
+      
+          }
 
     try {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("email", email);
-      formData.append("password", password);
+      if(!isEdit){
+        formData.append("password", password);
+      }
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
       setLoading(true)
-      const response = await userInstance.post("/register", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      let response
+      if(isEdit){
+        response = await userInstance.patch("/edit", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }else{
+        response = await userInstance.post("/register", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+      
 
       if (response.data.status === false) {
         toast.error(response.data.mes);
       } else {
-        toast.success("Registration successful!");
+        if(isEdit){
+          toast.success("updated successful!");
+        }else{
+          toast.success("Registration successful!");
+        }
         setLoading(false)
         setName("");
         setEmail("");
         setPassword("");
         setSelectedImage(null);
         navigate('/login')
+        if(isEdit){
+          setState(true)
+        }
       }
     } catch (error) {
       console.error(error);
@@ -92,7 +135,6 @@ const SignUp = () => {
 
   return (
     <div>
-      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
         <ToastContainer />
 
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -100,7 +142,7 @@ const SignUp = () => {
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
               <div>
-                <h1 className="text-2xl font-semibold">Register</h1>
+                <h1 className="text-2xl font-semibold">{isEdit?'Edit':'Register'}</h1>
               </div>
               <div className="divide-y divide-gray-200">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -144,6 +186,7 @@ const SignUp = () => {
                       Email Address
                     </label>
                   </div>
+                  {!isEdit&&
                   <div className="relative">
                     <input
                       autoComplete="off"
@@ -164,13 +207,21 @@ const SignUp = () => {
                       Password
                     </label>
                   </div>
-                  <div className="relative">
+                 }
+   <div className="relative">
+                    {user && user.profileImage && (
+                      <img
+                        src={`${userAPI}/images/` + user?.profileImage}
+                        alt="Profile"
+                        className="rounded-full w-20 h-20 mx-auto mb-4"
+                      />
+                    )}
+                     <>
                     <label
                       htmlFor="image"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Profile Image{" "}
-                      <span className="text-gray-500">(Optional)</span>
+                      Profile Image <span className="text-gray-500">(Optional)</span>
                     </label>
                     <input
                       type="file"
@@ -180,6 +231,8 @@ const SignUp = () => {
                       onChange={handleFileChange}
                       className="mt-1 py-1 px-2 block w-full border-2 border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:border-rose-600 focus:ring focus:ring-rose-200"
                     />
+                    </>
+
                   </div>
                   <div className="relative">
                   {loading?
@@ -190,17 +243,17 @@ const SignUp = () => {
                   </button>
                     }
                   </div>
-
+                 {!isEdit&&
                   <p onClick={()=>navigate('/login')}  className="text-sm cursor-pointer">
                       Already have account ?
-                    </p>
+                    </p>}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 };
 

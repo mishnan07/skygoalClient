@@ -1,13 +1,11 @@
-import { useState } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from './Pages/Home';
-import SignUp from './Componets/User/SignUp';
 import Login from './Componets/User/Login';
 import { useSelector } from 'react-redux';
+import Register from './Pages/Register';
 
 function App() {
   const isAuth = useSelector((state) => state.ClientAuth.Token);
-  console.log(isAuth,'99999999999999999');
 
   return (
     <>
@@ -22,7 +20,7 @@ function App() {
 
          <Route
           path="/register"
-          element={isAuth ? <Navigate to="/" /> : <SignUp />}
+          element={isAuth ? <Navigate to="/" /> : <Register />}
         />
         <Route
           path="/login"

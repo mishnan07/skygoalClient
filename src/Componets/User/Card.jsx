@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { ClientLogout } from "../../Redux/ClientAuth";
 import CreateUserInstance from "../../Axios/userAxios";
 import Modal from "./Modal";
+import { userAPI } from "../../Constants/Api";
 
-const Card = () => {
+const Card = ({user}) => {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInstance = CreateUserInstance();
+  const [state,setState] = useState(false)
 
   const userId = useSelector((state) => state.ClientAuth.Id);
 
@@ -29,7 +31,6 @@ const Card = () => {
     getData();
   }, []);
 
-  const userAPI = "https://skygoalserver-mishnan.onrender.com";
 
   return (
     <div>
@@ -79,8 +80,7 @@ const Card = () => {
               <div className="px-6">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                    {console.log(`${userAPI}/images/${data?.profileImage}`)}
-                    <div className="relative inline-flex">
+                    <div className="relative inline-block">
                       <img
                         alt="..."
                         src={
@@ -91,9 +91,11 @@ const Card = () => {
                         className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                       />
 
-                  
                     </div>
+                
+
                   </div>
+                  
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                     <div className="py-6 px-3 mt-32 sm:mt-0">
                       <button
@@ -116,6 +118,12 @@ const Card = () => {
                     </div>
                   </div>
                 </div>
+
+<div className="flex justify-center">
+<Modal user={data} setState={setState}/>
+                 
+</div>
+
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal  text-blueGray-700 mb-2">
                     {data?.name}

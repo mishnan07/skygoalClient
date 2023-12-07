@@ -1,28 +1,54 @@
-import React from 'react'
-import { FaEdit } from 'react-icons/fa';
+import React from "react";
+import { FaEdit } from "react-icons/fa";
+import SignUp from "./SignUp";
 
-const Modal = () => {
+const Modal = ({ user,setState={setState} }) => {
+  const openModal = () => {
+    document.getElementById("my_modal_3").showModal();
+    document.getElementById("overlay").classList.add("bg-opacity-50");
+  };
+
+  const closeModal = () => {
+    document.getElementById("my_modal_3").close();
+    document.getElementById("overlay").classList.remove("bg-opacity-50");
+  };
   return (
-    <div>
-    {/* You can open the modal using document.getElementById('ID').showModal() method */}
-    <FaEdit
-      size={20} // Adjust the size as needed
-      color="white" // Adjust the color as needed
-      className="cursor-pointer"
-    />
-<button className="btn" onClick={()=>document.getElementById('my_modal_3').showModal()}>open modal</button>
-<dialog id="my_modal_3" className="modal">
-  <div className="modal-box">
-    <form method="dialog">
-      {/* if there is a button in form, it will close the modal */}
-      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-    </form>
-    <h3 className="font-bold text-lg">Hello!</h3>
-    <p className="py-4">Press ESC key or click on ✕ button to close</p>
-  </div>
-</dialog>
-    </div>
-  )
-}
+    <div className="">
+      <div className="flex">
+        <p className="mr-2" onClick={openModal}>
+          edit
+        </p>
+        <FaEdit
+          onClick={openModal}
+          size={20}
+          color="black"
+          className="cursor-pointer"
+        />
+      </div>
 
-export default Modal
+      {/* Semi-transparent black overlay */}
+      <div
+        id="overlay"
+        className="fixed inset-0 bg-black transition-opacity duration-300 opacity-0 z-50 pointer-events-none"
+      ></div>
+
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box relative">
+          <div className="h-10"></div>
+          {/* Close button */}
+          <p
+            className=" text-black btn-ghost absolute right-2 top-2 w-5 h-10 cursor-pointer"
+            onClick={closeModal}
+          >
+            ✕
+          </p>
+
+          {/* Sign Up component */}
+          <SignUp edit="edit" user={user} setState={setState} />
+        </div>
+      </dialog>
+    </div>
+  );
+};
+
+export default Modal;
